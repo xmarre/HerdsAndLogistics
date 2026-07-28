@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p .reconstruction/input .reconstruction/output
-          base64 --decode legacy/v1.0.8/HerdsAndLogistics.dll.b64 > .reconstruction/input/HerdsAndLogistics.dll
+          base64 --decode legacy/v1.0.8/HerdsAndLogistics.dll.gz.b64 | gzip --decompress > .reconstruction/input/HerdsAndLogistics.dll
           echo "94335ed2a738169d534c86290c175d07760372c379bc5e2dacea3ce537d5491b  .reconstruction/input/HerdsAndLogistics.dll" | sha256sum --check --strict
       - name: Install ILSpy command line
         run: dotnet tool install --global ilspycmd --version 9.1.0.7988
