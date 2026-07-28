@@ -1,0 +1,41 @@
+name: Reconstruct legacy source
+
+on:
+  push:
+    branches:
+      - agent/reconstruct-universal-build
+    paths:
+      - legacy/**
+      - .github/workflows/reconstruct.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore verified legacy assembly
+        shell: bash
+        run: |
+          mkdir -p .reconstruction/input .reconstruction/output
+          base64 --decode legacy/v1.0.8/HerdsAndLogistics.dll.b64 > .reconstruction/input/HerdsAndLogistics.dll
+          echo "94335ed2a738169d534c86290c175d07760372c379bc5e2dacea3ce537d5491b  .reconstruction/input/HerdsAndLogistics.dll" | sha256sum --check --strict
+      - name: Install ILSpy command line
+        run: dotnet tool install --global ilspycmd --version 9.1.0.7988
+      - name: Decompile project and IL
+        shell: bash
+        run: |
+          ilspycmd --disable-updatecheck --project --outputdir .reconstruction/output/project .reconstruction/input/HerdsAndLogistics.dll
+          ilspycmd --disable-updatecheck --ilcode --outputdir .reconstruction/output/il .reconstruction/input/HerdsAndLogistics.dll
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reconstructed-v1.0.8
+          path: .reconstruction/output
+          if-no-files-found: error
+          retention-days: 7
