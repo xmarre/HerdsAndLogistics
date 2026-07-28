@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="Herds &amp; Logistics" />
+  <Id value="HerdsAndLogistics" />
+  <Version value="v1.0.9" />
+  <DefaultModule value="false" />
+  <Official value="false" />
+  <SingleplayerModule value="true" />
+  <MultiplayerModule value="false" />
+  <DependedModules>
+    <DependedModule Id="Native" Optional="false" />
+    <DependedModule Id="SandBoxCore" Optional="false" />
+    <DependedModule Id="Sandbox" Optional="false" />
+    <DependedModule Id="TOR_Core" Optional="true" />
+  </DependedModules>
+  <DependedModuleMetadatas>
+    <DependedModuleMetadata id="TOR_Core" order="LoadBeforeThis" optional="true" />
+  </DependedModuleMetadatas>
+  <SubModules>
+    <SubModule>
+      <Name value="Herds &amp; Logistics" />
+      <DLLName value="HerdsAndLogistics.dll" />
+      <SubModuleClassType value="HerdsAndLogistics.HerdsAndLogisticsSubModule" />
+      <Tags>
+        <Tag key="DedicatedServerType" value="none" />
+        <Tag key="IsNoRenderModeElement" value="false" />
+      </Tags>
+    </SubModule>
+  </SubModules>
+  <Xmls />
+</Module>
