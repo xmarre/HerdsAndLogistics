@@ -7,6 +7,9 @@ on:
     paths:
       - legacy/**
       - .github/workflows/reconstruct.yml
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
